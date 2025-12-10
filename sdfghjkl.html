@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>F1 Racing Team — Login</title>
+  <style>
+    :root{
+      --accent:#e10600; /* F1 red */
+      --dark:#0b0b0d;
+      --muted:#9aa0a6;
+      --glass: rgba(255,255,255,0.06);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{
+      background: linear-gradient(180deg,#061018 0%, #0d1116 40%), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800"><defs><linearGradient id="g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="%23000"/><stop offset="1" stop-color="%23000" stop-opacity="0"/></linearGradient></defs><g opacity="0.06"><rect width="1200" height="800" fill="%23fff"/></g></svg>') center/cover fixed no-repeat;
+      color:#fff;display:flex;align-items:center;justify-content:center;padding:32px;
+    }
+    .card{
+      width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:14px;padding:28px;display:grid;grid-template-columns:1fr 420px;gap:24px;box-shadow:0 8px 40px rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);border:1px solid rgba(255,255,255,0.03);
+    }
+    .left{
+      padding:20px;border-radius:10px;display:flex;flex-direction:column;gap:12px;align-items:flex-start;justify-content:center;
+    }
+    .logo{display:flex;align-items:center;gap:12px}
+    .logo .badge{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ff6b6b);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;box-shadow:0 6px 24px rgba(225,16,0,0.22)}
+    h1{margin:0;font-size:28px}
+    p.lead{margin:0;color:var(--muted)}
+    .team-stats{display:flex;gap:12px;margin-top:18px}
+    .stat{background:var(--glass);padding:10px 12px;border-radius:10px;text-align:center;min-width:96px}
+    .stat strong{display:block;font-size:18px}
+
+    /* form */
+    form{display:flex;flex-direction:column;gap:12px;padding:20px}
+    label{font-size:13px;color:var(--muted)}
+    input[type="email"],input[type="password"]{width:100%;padding:12px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:#fff;font-size:15px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .row{display:flex;gap:12px}
+    .btn{display:inline-block;padding:12px 16px;border-radius:10px;background:var(--accent);border:none;color:#fff;font-weight:600;cursor:pointer;font-size:15px}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .helper{display:flex;justify-content:space-between;align-items:center}
+    .small{font-size:13px;color:var(--muted)}
+    .password-toggle{cursor:pointer;padding:6px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:13px}
+
+    /* responsive */
+    @media (max-width:880px){
+      .card{grid-template-columns:1fr;}
+      .left{order:2}
+    }
+
+    /* small racing flair */
+    .flag{display:inline-block;padding:6px 10px;border-radius:8px;background:linear-gradient(90deg,#fff,#000);color:#000;font-weight:700}
+    .footer-note{font-size:12px;color:var(--muted);margin-top:18px}
+  </style>
+</head>
+<body>
+  <main class="card" role="main">
+    <section class="left">
+      <div class="logo">
+        <div class="badge">F1</div>
+        <div>
+          <div style="display:flex;gap:6px;align-items:center"><strong>Crimson Apex Racing</strong><span style="font-size:12px;color:var(--muted);margin-left:6px">— Team Portal</span></div>
+          <p class="lead">Welcome back, driver. Sign in to manage drivers, telemetry and race strategy.</p>
+        </div>
+      </div>
+
+      <div class="team-stats" aria-hidden>
+        <div class="stat"><small>Championships</small><strong>3</strong></div>
+        <div class="stat"><small>Wins</small><strong>47</strong></div>
+        <div class="stat"><small>Current Position</small><strong>2nd</strong></div>
+      </div>
+
+      <div class="footer-note">Need access? Ask your team admin for an invite. <span class="flag">PIT</span></div>
+    </section>
+
+    <section>
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@team.crimson" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input id="password" type="password" placeholder="••••••••" required style="flex:1" />
+            <button type="button" id="toggle" class="password-toggle" aria-label="Toggle password">Show</button>
+          </div>
+        </div>
+
+        <div class="helper">
+          <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="remember" /> <span class="small">Remember me</span></label>
+          <a href="#" class="small" id="forgot">Forgot password?</a>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:12px">
+          <button class="btn" type="submit">Sign in</button>
+          <button type="button" class="btn ghost" id="demo">Demo login</button>
+        </div>
+
+        <p id="error" role="alert" style="color:#ffb6b6;font-size:13px;display:none;margin-top:10px">Invalid credentials — try test@example.com</p>
+
+        <p class="small" style="margin-top:14px;color:var(--muted)">By signing in you agree to the team's security rules.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Simple client-side mock login handler
+    const loginForm = document.getElementById('loginForm');
+    const email = document.getElementById('email');
+    const pass = document.getElementById('password');
+    const error = document.getElementById('error');
+    const toggle = document.getElementById('toggle');
+    const demo = document.getElementById('demo');
+
+    toggle.addEventListener('click', ()=>{
+      const isPwd = pass.type === 'password';
+      pass.type = isPwd ? 'text' : 'password';
+      toggle.textContent = isPwd ? 'Hide' : 'Show';
+    });
+
+    demo.addEventListener('click', ()=>{
+      email.value = 'test@crimson.team';
+      pass.value = 'racing123';
+      // optionally submit automatically
+      // loginForm.requestSubmit();
+    });
+
+    loginForm.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      error.style.display = 'none';
+
+      // basic validation
+      if(!email.value || !pass.value){
+        error.textContent = 'Please enter both email and password.';
+        error.style.display = 'block';
+        return;
+      }
+
+      // mock credential check (replace with real backend integration)
+      const okUser = email.value.toLowerCase() === 'test@crimson.team' && pass.value === 'racing123';
+
+      if(okUser){
+        // show a simple success state
+        document.body.innerHTML = `<div style="height:100vh;display:flex;align-items:center;justify-content:center;color:#fff;font-family:Inter,Arial"><div style=\"text-align:center\"><h2>Welcome to Crimson Apex Racing</h2><p style=\"color:var(--muted)\">Redirecting to the team dashboard...</p></div></div>`;
+        // in a real app: window.location.href = '/dashboard'
+        return;
+      }
+
+      error.textContent = 'Invalid credentials — try the demo login.';
+      error.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
